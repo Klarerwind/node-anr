@@ -34,6 +34,8 @@ jQuery(function ($) {
         }
     ]).on("typeahead:selected", Util.autoPopulateFields);
 
+    // TODO update card image when user selects a different card
+
     // When the user sets the card type or uses auto-populate,
     // hide all fields and then show only fields relevant to that card type.
     $("#type").on('change', showRelevantFields);

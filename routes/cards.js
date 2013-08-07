@@ -39,6 +39,30 @@ exports.findAll = function (req, res) {
     });
 };
 
+var mapSetName = {
+    "Core": 1,
+    "What Lies Ahead": 2,
+    "Trace Amount": 2,
+    "Cyber Exodus": 2,
+    "A Study in Static": 2,
+    "Humanity's Shadow": 2,
+    "Future Proof": 2,
+    "Creation and Control": 3,
+    "Opening Moves": 4,
+    "Second Thoughts": 4,
+    "Mala Tempora": 4,
+    "Game Night Kits": 0
+};
+
+
+function alsciendeIndex(card) {
+    var index = '' + card.setNumber;
+    index = index.length >= 3 ? index : (new Array(3 - index.length + 1).join('0') + index);
+    index = mapSetName[card.setName] + index;
+    index = index.length >= 5 ? index : (new Array(5 - index.length + 1).join('0') + index);
+    return index;
+}
+
 exports.findById = function (req, res) {
     var id, collection = global.db.collection('cards');
 
@@ -57,6 +81,7 @@ exports.findById = function (req, res) {
             ascii,
             alerts;
 
+        card.imageUrl = "http://netrunnercards.info/assets/images/cards/300x418/" + alsciendeIndex(card) + ".png";
         sFaction[toCamelCase(card.faction)] = true;
         sType[toCamelCase(card.type)] = true;
 
@@ -131,6 +156,7 @@ exports.updateCardForm = function (req, res) {
         var sFaction = {},
         sType = {};
 
+        card.imageUrl = "http://netrunnercards.info/assets/images/cards/300x418/" + alsciendeIndex(card) + ".png";
         sFaction[toCamelCase(card.faction)] = true;
         sType[toCamelCase(card.type)] = true;
 

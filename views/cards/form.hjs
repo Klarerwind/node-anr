@@ -23,7 +23,7 @@
         {{#card._id}}<input type="hidden" name="card[_id]" value="{{ card._id }}" >{{/card._id}}
         {{#update}}<input type="hidden" name="_method" value="put"/>{{/update}}
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <fieldset>
                     <div class="form-group">
                         <label for="title">Title</label>
@@ -69,13 +69,13 @@
                         <input type="text" class="form-control" id="subtype" name="card[subtype]" value="{{ card.subtype }}" >
                     </div>
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="setName">Set name</label>
                                 <input type="text" class="form-control" id="setName" name="card[setName]" value="{{ card.setName }}" >
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="setNumber">Set #</label>
                                 <input type="text" class="form-control" id="setNumber" name="card[setNumber]" value="{{ card.setNumber }}" >
@@ -134,17 +134,25 @@
                     </fieldset>
                 </fieldset>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="form-group">
                     <label for="code">Code</label>
                     <textarea id="code" name="card[code]">{{ card.code }}</textarea>
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Card Image</label>
+                    <div><img src="{{ card.imageUrl }}" class="img-responsive"></div>
+                </div>
+            </div>
         </div>
         <div class="row">
-            <div class="col-lg-4">
-                <button form="cardInfo" type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-                <button form="indexForm" type="submit" class="btn btn-default btn-lg btn-block">Back to index</button>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <button form="cardInfo" type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                    <button form="indexForm" type="submit" class="btn btn-default btn-lg btn-block">Back to index</button>
+                </div>
             </div>
         </div>
     </form>

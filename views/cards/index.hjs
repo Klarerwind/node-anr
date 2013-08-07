@@ -46,7 +46,7 @@
             <td>{{trashCost}}</td>
             <td>{{memoryCost}}</td>
             <td><span class="{{influenceColor}}">{{influenceDots}}</span></td>
-            <td class="text-right">{{setName}} #{{setNumber}}</td>
+            <td class="text-right"><i>{{setName}}</i> &nbsp;{{setNumber}}</td>
         </tr>
         {{/cards}}
         </tbody>

@@ -1,0 +1,145 @@
+{
+    _id: ObjectId
+  , turnNumber: Integer
+  , phase: String
+  , status: String
+  , lastModified: Time
+  , corp: {
+      credits: Integer
+    , clicks: Integer
+    , deck: Integer
+    , hand: Integer
+    , badPublicity: Integer
+    , serverCount: Integer
+    }
+  , runner: {
+      credits: Integer
+    , clicks: Integer
+    , deck: Integer
+    , hand: Integer
+    , tags: Integer
+    }
+  , cards: [
+      {}
+    , {}
+    ]
+  , callbacks: {
+      onTurnBegin: []
+    , onTurnEnd: []
+    , onInstall: []
+    , onRez: []
+    , onScoreAgenda: []
+    , onIceApproach: []
+    , onJackOut: []
+    , onIceEncounter: []
+    , onBreakSubroutine: []
+    , onRunBegin: []
+    , onRunEnd: []
+    , onTraceBegin: []
+    , onTraceEnd: []
+    , onDamage: []
+    , onCardAccess: []
+    , onCardTrash: []
+    }
+  , modifiers: {
+    , installCost: []
+    , rezCost: []
+    , advancementReq: []
+    , trashCost: []
+    , iceStr: []
+    , icebreakerStr: []
+    , traceStr: []
+    , linkStr: []
+    , memoryCost: []
+    , memoryLimit: []
+    , maxHandSize: []
+    }
+}
+
+
+{ _id: 135
+, turnNumber: 1
+, phase: "Action"
+, status: "String"
+, lastModified: 1345
+, corp: {
+    playerId: 11
+  , credits: 5
+  , clicks: 3
+  , deck: 40
+  , hand: 5
+  , badPublicity: 0
+  , serverCount: 0
+  }
+, runner: {
+    playerId: 12
+  , credits: 5
+  , clicks: 0
+  , deck: 40
+  , hand: 5
+  , tags: 0
+  }
+, cards: [
+    {
+      playerId: 135,
+      id: 12,
+      location:
+    }
+  , {}
+  ]
+, callbacks: {
+    onTurnBegin: []
+  , onTurnEnd: []
+  , onInstall: []
+  , onRez: []
+  , onScoreAgenda: []
+  , onIceApproach: []
+  , onJackOut: []
+  , onIceEncounter: []
+  , onBreakSubroutine: []
+  , onRunBegin: []
+  , onRunEnd: []
+  , onTraceBegin: []
+  , onTraceEnd: []
+  , onDamage: []
+  , onCardAccess: []
+  , onCardTrash: []
+  }
+, modifiers: {
+    installCost: []
+  , rezCost: []
+  , advancementReq: []
+  , trashCost: []
+  , iceStr: []
+  , icebreakerStr: []
+  , traceStr: []
+  , linkStr: []
+  , memoryCost: []
+  , memoryLimit: []
+  , maxHandSize: []
+  }
+}
+
+
+Callbacks
+---------
+onTurnBegin: function(game)
+onTurnEnd: function(game)
+onInstall: function(game, cardId)
+onRez: function(game, cardId)
+onScoreAgenda: function(game, cardId)
+onApproachIce: function(game, cardId)
+onJackOut: function(game)
+onEncounterIce: function(game)
+onBreakSubroutine: function(game)
+onRunBegin: function(game)
+onRunEnd: function(game)
+onTraceBegin: function(game)
+onTraceEnd: function(game)
+onDamage: function(game, damageType, damageCount)
+
+Modifiers
+---------
+installCost: function(game, cardId)
+rezCost: function(game, cardId)
+advancementReq: function(game, cardId)

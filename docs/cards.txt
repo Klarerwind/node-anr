@@ -1,0 +1,45 @@
+askYesNo("Would you like to use this ability?", function(yes) {
+  // this is only called once the input has been verified (user has selected yes or no)
+})
+
+askTargets("Select a program or piece of hardware to rez.", [135, 136, 18], function(targets) {
+  // this is only called once the input has been verified (user has selected one of the choices)
+})
+
+askTargets("Select 1 card or 2 virus cards.", function(cardArray) {
+  return (cardArray.length === 1 && cardArray[0].location === Location.GRIP) ||
+    (cardArray.length === 2 && cardArray[0].in(Location.GRIP) && card.is('virus'))
+                            && cardArray[1].in(Location.GRIP) && card.is('virus'));
+}, function(targets) {
+
+}
+
+askNumber("Pick a number of credits to spend.", min, max, function(num) {
+  // this is only called once the input has been verified (user has selected an integer in [min, max])
+})
+
+ask
+
+drawCards(number, toLocation)
+
+Noise
+identity:
+  on('install', function(card) {
+    if (card.is('program','virus')) {
+      drawCards(1, Location.ARCHIVES);
+    }
+  }
+
+
+
+
+Demolition Run
+played:
+  ask
+  makeRun(
+
+
+Cyberfeeder
+whileInstalled:
+  recurringCredit(event)
+    card

@@ -1,0 +1,106 @@
+ids are UUIDs, not auto incremented
+
+user:<userId>:games => LIST of gameIds
+user:12:games => [135,353]
+
+game:135 => HASH
+{
+  turn: 1
+  c_userId: 11
+  c_credits: 5
+  c_clicks: 3
+  c_badPub: 0
+  r_userId: 12
+  r_credits: 5
+  r_clicks: 3
+  r_tags: 0
+  context: String containing Lua serialization of game triggers
+}
+
+to optimize, use sorted set of game update keys (e.g. 35315098 <guid>, 234320948 <guid>),
+where score is the last modified time and value is the card location
+game:135:updates => SORTED_SET
+
+draw card = pop from r_deck + update card loc and rank
+
+game:135:r_deck => LIST of cardIds
+game:135:rs_all => LIST of remote server UUIDs
+game:135:rs_1 => LIST of cardIds protecting remote server 1
+game:135:in_rs_1 => SET of cardIds hosted in remote server 1
+
+card:1 =>
+{
+  guid: STRING
+  isFaceUp: BOOL (0 or 1)
+  tokens: 3
+  tokenType: 'virus'
+  hostedOn: cardId
+  loc: 'r_deck' (or remote server name)
+  z: 13 (position in remote server, usually undefined)
+}
+
+game:135:updates => LIST of updates
+game:135:update:1343434
+
+{ _id: 135
+, turnNumber: 1
+, phase: "Action"
+, status: "String"
+, lastModified: 1345
+, corp: {
+    playerId: 11
+  , credits: 5
+  , clicks: 3
+  , deck: 40
+  , hand: 5
+  , badPublicity: 0
+  , serverCount: 0
+  }
+, runner: {
+    playerId: 12
+  , credits: 5
+  , clicks: 0
+  , deck: 40
+  , hand: 5
+  , tags: 0
+  }
+, cards: [
+    {
+      playerId: 135,
+      id: 12,
+      location:
+    }
+  , {}
+  ]
+, callbacks: {
+    onTurnBegin: []
+  , onTurnEnd: []
+  , onInstall: []
+  , onRez: []
+  , onScoreAgenda: []
+  , onIceApproach: []
+  , onJackOut: []
+  , onIceEncounter: []
+  , onBreakSubroutine: []
+  , onRunBegin: []
+  , onRunEnd: []
+  , onTraceBegin: []
+  , onTraceEnd: []
+  , onDamage: []
+  , onCardAccess: []
+  , onCardTrash: []
+  }
+, modifiers: {
+    installCost: []
+  , rezCost: []
+  , advancementReq: []
+  , trashCost: []
+  , iceStr: []
+  , icebreakerStr: []
+  , traceStr: []
+  , linkStr: []
+  , memoryCost: []
+  , memoryLimit: []
+  , maxHandSize: []
+  }
+}

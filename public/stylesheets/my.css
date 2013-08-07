@@ -1,0 +1,31 @@
+.influence-neutral {
+    color: #d3d3d3;
+}
+
+.influence-haas-bioroid {
+    color: blueviolet;
+}
+
+.influence-jinteki {
+    color: brown;
+}
+
+.influence-nbn {
+    color: goldenrod;
+}
+
+.influence-weyland-consortium {
+    color: darkslategray;
+}
+
+.influence-anarch {
+    color: orangered;
+}
+
+.influence-criminal {
+    color: cornflowerblue;
+}
+
+.influence-shaper {
+    color: #A4C639;
+}

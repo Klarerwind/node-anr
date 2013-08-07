@@ -53,12 +53,25 @@ exports.findById = function (req, res) {
         if (!card) return cardNotFound(res);
 
         var sFaction = {},
-        sType = {};
+            sType = {},
+            ascii,
+            alerts;
 
         sFaction[toCamelCase(card.faction)] = true;
         sType[toCamelCase(card.type)] = true;
 
+        if (req.cookies.alerts) {
+            ascii = new Buffer(req.cookies.alerts, 'base64').toString('ascii');
+            try {
+                alerts = JSON.parse(ascii);
+            } catch (e) {
+                console.log(ascii, e);
+            }
+            res.clearCookie('alerts');
+        }
+
         res.render('cards/show', {
+            alerts: alerts,
             title: "Viewing " + card.title,
             header: "View Card (" + card._id + ")",
             card: card,
@@ -95,9 +108,10 @@ exports.addCard = function (req, res) {
 
     var collection = global.db.collection('cards');
     collection.insert(card, function() {
-        res.redirect(Routes.cardPath(card, {
-            alerts: [{type: "success", message: 'Added "' + card.title + '" successfully.'}]
-        }));
+        var alerts = [{type: "success", message: 'Added "' + card.title + '" successfully.'}],
+            base64 = new Buffer(JSON.stringify(alerts)).toString('base64');
+        res.cookie('alerts', base64, { maxAge: 900000, httpOnly: true });
+        res.redirect(Routes.cardPath(card));
     });
 };
 
@@ -126,6 +140,7 @@ exports.updateCardForm = function (req, res) {
             card: card,
             submitPath: Routes.cardPath(card),
             script: "/javascripts/cards/add.js",
+            update: true,
             sFaction: sFaction,
             sType: sType
         });
@@ -149,9 +164,10 @@ exports.updateCard = function (req, res) {
 
     var collection = global.db.collection('cards');
     collection.insert(card, function() {
-        res.redirect(Routes.cardPath(card, {
-            alerts: [{type: "success", message: 'Updated "' + card.title + '" successfully.'}]
-        }));
+        var alerts = [{type: "success", message: 'Updated "' + card.title + '" successfully.'}],
+        base64 = new Buffer(JSON.stringify(alerts)).toString('base64');
+        res.cookie('alerts', base64, { maxAge: 900000, httpOnly: true });
+        res.redirect(Routes.cardPath(card));
     });
 };
 

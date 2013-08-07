@@ -10,14 +10,18 @@
 </head>
 <body>
 <div class="container">
-    {{#alerts}}
-    <div class="alert alert-{{ type }}" >{{ message }}</div>
-    {{/alerts}}
     <div class="page-header">
         <h3>{{ header }}</h3>
     </div>
+    {{#alerts}}
+    <div class="alert alert-{{ type }}" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {{/alerts}}
     <form id="cardInfo" method="post" action="{{ submitPath }}" >
         {{#card._id}}<input type="hidden" name="card[_id]" value="{{ card._id }}" >{{/card._id}}
+        {{#update}}<input type="hidden" name="_method" value="put"/>{{/update}}
         <div class="row">
             <div class="col-lg-4">
                 <fieldset>
@@ -52,7 +56,7 @@
                             <option{{#sType}}{{#asset}} selected{{/asset}}{{/sType}}>Asset</option>
                             <option{{#sType}}{{#event}} selected{{/event}}{{/sType}}>Event</option>
                             <option{{#sType}}{{#hardware}} selected{{/hardware}}{{/sType}}>Hardware</option>
-                            <option value="Ice"{{ #sType}}{{#ice}} selected{{/ice}}{{/sType}}>ICE</option>
+                            <option value="Ice"{{#sType}}{{#ice}} selected{{/ice}}{{/sType}}>ICE</option>
                             <option{{#sType}}{{#identity}} selected{{/identity}}{{/sType}}>Identity</option>
                             <option{{#sType}}{{#operation}} selected{{/operation}}{{/sType}}>Operation</option>
                             <option{{#sType}}{{#program}} selected{{/program}}{{/sType}}>Program</option>

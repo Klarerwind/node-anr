@@ -9,148 +9,127 @@
 </head>
 <body>
 <div class="container">
-    {{#alerts}}
-    <div class="alert alert-{{type }}">{{ message }}</div>
-    {{/alerts}}
     <div class="page-header">
         <h3>{{ header }}</h3>
     </div>
+    {{#alerts}}
+    <div class="alert alert-{{ type }}" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {{/alerts}}
     <form>
     {{#card._id}}<input type="hidden" name="card[_id]" value="{{ card._id }}">{{/card._id}}
     <div class="row">
         <div class="col-lg-4">
             <fieldset disabled>
-            <div class="form-group">
-                <label for="title">Title</label>
+                <div class="form-group">
+                    <label for="title">Title</label>
 
-                <div class="input-group">
-                    <span class="input-group-addon"><input type="checkbox" name="card[unique]"></span>
-                    <input type="text" class="form-control" id="title" name="card[title]" value="{{ card.title }}"
-                           placeholder="Enter card name" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="faction">Faction</label>
-                <select class="form-control" id="faction" name="card[faction]" required>
-                    <option value="">Please select</option>
-                    <option{{#sFaction}}{{#neutral}} selected{{/neutral}}{{/sFaction}}>Neutral</option>
-                    <option{{#sFaction}}{{#haasBioroid}} selected{{/haasBioroid}}{{/sFaction}}>Haas-Bioroid</option>
-                    <option{{#sFaction}}{{#jinteki}} selected{{/jinteki}}{{/sFaction}}>Jinteki</option>
-                    <option{{#sFaction}}{{#nbn}} selected{{/nbn}}{{/sFaction}}>NBN</option>
-                    <option{{#sFaction}}{{#weylandConsortium}} selected{{/weylandConsortium}}{{/sFaction}}>Weyland Consortium</option>
-                    <option{{#sFaction}}{{#anarch}} selected{{/anarch}}{{/sFaction}}>Anarch</option>
-                    <option{{#sFaction}}{{#criminal}} selected{{/criminal}}{{/sFaction}}>Criminal</option>
-                    <option{{#sFaction}}{{#shaper}} selected{{/shaper}}{{/sFaction}}>Shaper</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select class="form-control" id="type" name="card[type]" required>
-                    <option value="">Please select</option>
-                    <option{{#sType}}{{#agenda}} selected{{/agenda}}{{/sType}}>Agenda</option>
-                    <option{{#sType}}{{#asset}} selected{{/asset}}{{/sType}}>Asset</option>
-                    <option{{#sType}}{{#event}} selected{{/event}}{{/sType}}>Event</option>
-                    <option{{#sType}}{{#hardware}} selected{{/hardware}}{{/sType}}>Hardware</option>
-                    <option value="Ice"{{ #sType}}{{#ice}} selected{{/ice}}{{/sType}}>ICE</option>
-                    <option{{#sType}}{{#identity}} selected{{/identity}}{{/sType}}>Identity</option>
-                    <option{{#sType}}{{#operation}} selected{{/operation}}{{/sType}}>Operation</option>
-                    <option{{#sType}}{{#program}} selected{{/program}}{{/sType}}>Program</option>
-                    <option{{#sType}}{{#resource}} selected{{/resource}}{{/sType}}>Resource</option>
-                    <option{{#sType}}{{#upgrade}} selected{{/upgrade}}{{/sType}}>Upgrade</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="subtype">Subtype</label>
-                <input type="text" class="form-control" id="subtype" name="card[subtype]" value="{{ card.subtype }}">
-            </div>
-            <div class="row">
-                <div class="col-lg-9">
-                    <div class="form-group">
-                        <label for="setName">Set name</label>
-                        <input type="text" class="form-control" id="setName" name="card[setName]" value="{{ card.setName }}">
+                    <div class="input-group">
+                        <span class="input-group-addon"><input type="checkbox" name="card[unique]"></span>
+                        <input type="text" class="form-control" id="title" name="card[title]" value="{{ card.title }}"
+                               placeholder="Enter card name" required>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label for="setNumber">Set #</label>
-                        <input type="text" class="form-control" id="setNumber" name="card[setNumber]" value="{{ card.setNumber }}">
+                <div class="form-group">
+                    <label for="faction">Faction</label>
+                    <select class="form-control" id="faction" name="card[faction]" required>
+                        <option value="">Please select</option>
+                        <option{{#sFaction}}{{#neutral}} selected{{/neutral}}{{/sFaction}}>Neutral</option>
+                        <option{{#sFaction}}{{#haasBioroid}} selected{{/haasBioroid}}{{/sFaction}}>Haas-Bioroid</option>
+                        <option{{#sFaction}}{{#jinteki}} selected{{/jinteki}}{{/sFaction}}>Jinteki</option>
+                        <option{{#sFaction}}{{#nbn}} selected{{/nbn}}{{/sFaction}}>NBN</option>
+                        <option{{#sFaction}}{{#weylandConsortium}} selected{{/weylandConsortium}}{{/sFaction}}>Weyland Consortium</option>
+                        <option{{#sFaction}}{{#anarch}} selected{{/anarch}}{{/sFaction}}>Anarch</option>
+                        <option{{#sFaction}}{{#criminal}} selected{{/criminal}}{{/sFaction}}>Criminal</option>
+                        <option{{#sFaction}}{{#shaper}} selected{{/shaper}}{{/sFaction}}>Shaper</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select class="form-control" id="type" name="card[type]" required>
+                        <option value="">Please select</option>
+                        <option{{#sType}}{{#agenda}} selected{{/agenda}}{{/sType}}>Agenda</option>
+                        <option{{#sType}}{{#asset}} selected{{/asset}}{{/sType}}>Asset</option>
+                        <option{{#sType}}{{#event}} selected{{/event}}{{/sType}}>Event</option>
+                        <option{{#sType}}{{#hardware}} selected{{/hardware}}{{/sType}}>Hardware</option>
+                        <option value="Ice"{{#sType}}{{#ice}} selected{{/ice}}{{/sType}}>ICE</option>
+                        <option{{#sType}}{{#identity}} selected{{/identity}}{{/sType}}>Identity</option>
+                        <option{{#sType}}{{#operation}} selected{{/operation}}{{/sType}}>Operation</option>
+                        <option{{#sType}}{{#program}} selected{{/program}}{{/sType}}>Program</option>
+                        <option{{#sType}}{{#resource}} selected{{/resource}}{{/sType}}>Resource</option>
+                        <option{{#sType}}{{#upgrade}} selected{{/upgrade}}{{/sType}}>Upgrade</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subtype">Subtype</label>
+                    <input type="text" class="form-control" id="subtype" name="card[subtype]" value="{{ card.subtype }}">
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="form-group">
+                            <label for="setName">Set name</label>
+                            <input type="text" class="form-control" id="setName" name="card[setName]" value="{{ card.setName }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="setNumber">Set #</label>
+                            <input type="text" class="form-control" id="setNumber" name="card[setNumber]" value="{{ card.setNumber }}">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <fieldset id="optionalFields">
-                {{#card.baseLink}}
-                <div class="form-group">
-                    <label for="baseLink">Base link</label>
-                    <input type="text" class="form-control" id="baseLink" name="card[baseLink]" value="{{ card.baseLink }}">
-                </div>
-                {{/card.baseLink}}
-                {{#card.minimumDeckSize}}
-                <div class="form-group">
-                    <label for="minimumDeckSize">Minimum deck size</label>
-                    <input type="text" class="form-control" id="minimumDeckSize" name="card[minimumDeckSize]" value="{{ card.minimumDeckSize }}">
-                </div>
-                {{/card.minimumDeckSize}}
-                {{#card.influenceLimit}}
-                <div class="form-group">
-                    <label for="influenceLimit">Influence limit</label>
-                    <input type="text" class="form-control" id="influenceLimit" name="card[influenceLimit]" value="{{ card.influenceLimit }}">
-                </div>
-                {{/card.influenceLimit}}
-                {{#card.influenceValue}}
-                <div class="form-group">
-                    <label for="influenceValue">Influence value</label>
-                    <input type="text" class="form-control" id="influenceValue" name="card[influenceValue]" value="{{ card.influenceValue }}">
-                </div>
-                {{/card.influenceValue}}
-                {{#card.playCost}}
-                <div class="form-group">
-                    <label for="playCost">Play cost</label>
-                    <input type="text" class="form-control" id="playCost" name="card[playCost]" value="{{ card.playCost }}">
-                </div>
-                {{/card.playCost}}
-                {{#card.advancementReq}}
-                <div class="form-group">
-                    <label for="advancementReq">Advancement requirement</label>
-                    <input type="text" class="form-control" id="advancementReq" name="card[advancementReq]" value="{{ card.advancementReq }}">
-                </div>
-                {{/card.advancementReq}}
-                {{#card.agendaPoints}}
-                <div class="form-group">
-                    <label for="agendaPoints">Agenda points</label>
-                    <input type="text" class="form-control" id="agendaPoints" name="card[agendaPoints]" value="{{ card.agendaPoints }}">
-                </div>
-                {{/card.agendaPoints}}
-                {{#card.rezCost}}
-                <div class="form-group">
-                    <label for="rezCost">Rez cost</label>
-                    <input type="text" class="form-control" id="rezCost" name="card[rezCost]" value="{{ card.rezCost }}">
-                </div>
-                {{/card.rezCost}}
-                {{#card.installCost}}
-                <div class="form-group">
-                    <label for="installCost">Install cost</label>
-                    <input type="text" class="form-control" id="installCost" name="card[installCost]" value="{{ card.installCost }}">
-                </div>
-                {{/card.installCost}}
-                {{#card.memoryCost}}
-                <div class="form-group">
-                    <label for="memoryCost">Memory cost</label>
-                    <input type="text" class="form-control" id="memoryCost" name="card[memoryCost]" value="{{ card.memoryCost }}">
-                </div>
-                {{/card.memoryCost}}
-                {{#card.strength}}
-                <div class="form-group">
-                    <label for="strength">Strength</label>
-                    <input type="text" class="form-control" id="strength" name="card[strength]" value="{{ card.strength }}">
-                </div>
-                {{/card.strength}}
-                {{#card.trashCost}}
-                <div class="form-group">
-                    <label for="trashCost">Trash cost</label>
-                    <input type="text" class="form-control" id="trashCost" name="card[trashCost]" value="{{ card.trashCost }}">
-                </div>
-                {{/card.trashCost}}
-            </fieldset>
+                <fieldset id="optionalFields">
+                    <div class="form-group">
+                        <label for="baseLink">Base link</label>
+                        <input type="text" class="form-control" id="baseLink" name="card[baseLink]" value="{{ card.baseLink }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="minimumDeckSize">Minimum deck size</label>
+                        <input type="text" class="form-control" id="minimumDeckSize" name="card[minimumDeckSize]" value="{{ card.minimumDeckSize }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="influenceLimit">Influence limit</label>
+                        <input type="text" class="form-control" id="influenceLimit" name="card[influenceLimit]" value="{{ card.influenceLimit }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="influenceValue">Influence value</label>
+                        <input type="text" class="form-control" id="influenceValue" name="card[influenceValue]" value="{{ card.influenceValue }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="playCost">Play cost</label>
+                        <input type="text" class="form-control" id="playCost" name="card[playCost]" value="{{ card.playCost }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="advancementReq">Advancement requirement</label>
+                        <input type="text" class="form-control" id="advancementReq" name="card[advancementReq]" value="{{ card.advancementReq }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="agendaPoints">Agenda points</label>
+                        <input type="text" class="form-control" id="agendaPoints" name="card[agendaPoints]" value="{{ card.agendaPoints }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="rezCost">Rez cost</label>
+                        <input type="text" class="form-control" id="rezCost" name="card[rezCost]" value="{{ card.rezCost }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="installCost">Install cost</label>
+                        <input type="text" class="form-control" id="installCost" name="card[installCost]" value="{{ card.installCost }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="memoryCost">Memory cost</label>
+                        <input type="text" class="form-control" id="memoryCost" name="card[memoryCost]" value="{{ card.memoryCost }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="strength">Strength</label>
+                        <input type="text" class="form-control" id="strength" name="card[strength]" value="{{ card.strength }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="trashCost">Trash cost</label>
+                        <input type="text" class="form-control" id="trashCost" name="card[trashCost]" value="{{ card.trashCost }}">
+                    </div>
+                </fieldset>
             </fieldset>
         </div>
         <div class="col-lg-8">

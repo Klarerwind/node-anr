@@ -1,67 +1,45 @@
 function Util() {
-    function resizeTitleField () {
-        // typeahead.js causes the title div to be inline-block,
-        // which messes with it's width
-        $("#title").css('width', '160px');  // temporarily make it small
-        setTimeout(function(){
-            // then set real width after allowing other page elements to re-flow/resize
-            $("#title").css('width', $('#subtype').css('width'));
-        }, 0);
+    function getOptionalFields () {
+        return $('#optionalFields input[type="text"]').closest('.form-group');
     }
 
-    function hideAllOptionalFields (callback) {
-        var visibleFields = $('#optionalFields input[type="text"]').closest('.form-group');
-        callback = callback || $.noop;
-        if (visibleFields.length) {
-            visibleFields.hide(callback);
-        } else {
-            callback();
-        }
-    }
-
-    function hideVisibleOptionalFields (callback) {
-        var visibleFields = $('#optionalFields input[type="text"]').closest('.form-group').filter(':visible');
-        callback = callback || $.noop;
-        if (visibleFields.length) {
-            visibleFields.slideUp(callback);
-        } else {
-            callback();
-        }
-    }
-
-    function showRelevantFields(cardType) {
+    function getRelevantFields(cardType) {
+        var fields;
         switch( cardType ) {
         case "Identity":
-            $("#baseLink, #minimumDeckSize, #influenceLimit").closest('.form-group').slideDown();
+            fields = $("#baseLink, #minimumDeckSize, #influenceLimit");
             break;
         case "Operation":
-            $("#influenceValue, #playCost").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #playCost");
             break;
         case "Agenda":
-            $("#advancementReq, #agendaPoints").closest('.form-group').slideDown();
+            fields = $("#advancementReq, #agendaPoints");
             break;
         case "Ice":
-            $("#influenceValue, #rezCost, #strength").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #rezCost, #strength");
             break;
         case "Upgrade":
-            $("#influenceValue, #rezCost, #trashCost").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #rezCost, #trashCost");
             break;
         case "Asset":
-            $("#influenceValue, #rezCost, #trashCost").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #rezCost, #trashCost");
             break;
         case "Hardware":
-            $("#influenceValue, #installCost").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #installCost");
             break;
         case "Resource":
-            $("#influenceValue, #installCost").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #installCost");
             break;
         case "Program":
-            $("#influenceValue, #installCost, #memoryCost, #strength").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #installCost, #memoryCost, #strength");
             break;
         case "Event":
-            $("#influenceValue, #playCost").closest('.form-group').slideDown();
+            fields = $("#influenceValue, #playCost");
             break;
+        default:
+            return $("");
         }
+        return fields.closest('.form-group');
     }
 
     function autoPopulateFields (evt, card) {
@@ -101,10 +79,10 @@ function Util() {
 
         $("#type").trigger('change');
     }
+
     return {
-        hideAllOptionalFields: hideAllOptionalFields,
-        hideVisibleOptionalFields: hideVisibleOptionalFields,
-        showRelevantFields: showRelevantFields,
+        getOptionalFields: getOptionalFields,
+        getRelevantFields: getRelevantFields,
         autoPopulateFields: autoPopulateFields
     };
 }

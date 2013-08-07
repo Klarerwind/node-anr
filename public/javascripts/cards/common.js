@@ -1,4 +1,4 @@
-(function() {
+function Util() {
     function resizeTitleField () {
         // typeahead.js causes the title div to be inline-block,
         // which messes with it's width
@@ -10,6 +10,16 @@
     }
 
     function hideAllOptionalFields (callback) {
+        var visibleFields = $('#optionalFields input[type="text"]').closest('.form-group');
+        callback = callback || $.noop;
+        if (visibleFields.length) {
+            visibleFields.hide(callback);
+        } else {
+            callback();
+        }
+    }
+
+    function hideVisibleOptionalFields (callback) {
         var visibleFields = $('#optionalFields input[type="text"]').closest('.form-group').filter(':visible');
         callback = callback || $.noop;
         if (visibleFields.length) {
@@ -91,47 +101,10 @@
 
         $("#type").trigger('change');
     }
-
-    // Execute on DOM ready
-    jQuery(function($) {
-        hideAllOptionalFields();
-
-        if (CodeMirror && document.getElementById("code")) {
-            CodeMirror.fromTextArea(document.getElementById("code"), {
-                mode: 'javascript',
-                theme: "solarized dark",
-                lineNumbers: true,
-                styleActiveLine: true,
-//                matchBrackets: true,
-//                showTrailingSpace: true,
-                extraKeys: {
-                    Tab: function (cm) {
-                        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                        cm.replaceSelection(spaces, "end", "+input");
-                    },
-                    'Cmd-/': 'toggleComment'
-                }
-            });
-        }
-
-        $("#title").typeahead([
-            {
-                name: 'cards',
-                valueKey: 'title',
-                prefetch: '/cards.json',
-                template: '<p><strong>{{title}}</strong> – {{setname}} #{{number}}</p>',
-                engine: Hogan
-            }
-        ]);
-
-        $("#title").on("typeahead:selected", autoPopulateFields);
-//        $("#title").on('typeahead:initialized', resizeTitleField);
-//        $(window).on('resize', resizeTitleField);
-
-        $("#type").on('change', function() {
-            hideAllOptionalFields(function() {
-                showRelevantFields($("#type").val());
-            });
-        });
-    });
-})();
+    return {
+        hideAllOptionalFields: hideAllOptionalFields,
+        hideVisibleOptionalFields: hideVisibleOptionalFields,
+        showRelevantFields: showRelevantFields,
+        autoPopulateFields: autoPopulateFields
+    };
+}

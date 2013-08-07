@@ -34,10 +34,10 @@ if ('development' == app.get('env')) {
 app.get('/', game.getGameView);
 app.get('/cards', cards.findAll);
 app.get('/cards/new', cards.addCardForm);
+app.get('/cards/:id/edit', cards.updateCardForm);
 app.post('/cards', cards.addCard);
 app.get('/cards/:id', cards.findById);
-//app.get('/cards/:id/edit', cards.edit);
-//app.put('/cards', cards.update);
+app.put('/cards/:id', cards.updateCard);
 //app.delete('/cards/:id', cards.delete);
 //app.get('/users', user.list);
 

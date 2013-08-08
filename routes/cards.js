@@ -96,7 +96,7 @@ exports.addCard = function (req, res) {
     }
 
     var collection = global.db.collection('cards');
-    collection.insert(card, function() {
+    collection.insert(card, {w:1}, function() {
         var alerts = {type: "success", message: '<strong>Success!</strong> <i>'
             + card.title + '</i> was added. <a href="'
             + Routes.newCardPath() + '" class="alert-link">Add another</a>'},

@@ -15,7 +15,7 @@
         <h3>Add Card</h3>
         {{/card}}
         {{#card}}
-        <h3>Edit Card <small>{{card._id}}</small></h3>
+        <h3>Edit Card <small>{{ card._id }}</small></h3>
         {{/card}}
     </div>
     {{#alerts}}
@@ -148,7 +148,7 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Card Image</label>
-                    <div><img src="{{ card.imageUrl }}" class="img-responsive"></div>
+                    <div><img id="previewImage" src="{{ card.imageUrl }}" class="img-responsive"></div>
                 </div>
             </div>
         </div>

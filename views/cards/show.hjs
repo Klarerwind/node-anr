@@ -10,7 +10,7 @@
 <body>
 <div class="container">
     <div class="page-header">
-        <h3>View Card <small>{{card._id}}</small></h3>
+        <h3>View Card <small>{{ card._id }}</small></h3>
     </div>
     {{#alerts}}
     <div class="alert alert-{{ type }}" >
@@ -141,7 +141,7 @@
         <div class="col-lg-3">
             <div class="form-group">
                 <label>Card Image</label>
-                <div><img src="{{ card.imageUrl }}" class="img-responsive"></div>
+                <div><img id="previewImage" src="{{ card.imageUrl }}" class="img-responsive"></div>
             </div>
         </div>
     </div>

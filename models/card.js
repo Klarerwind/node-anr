@@ -1,17 +1,31 @@
 var Routes = require('../routes');
-var VCards = require('../vcards');
 
 var Card = module.exports = {};
 
+var mapSetName = {
+    "Core": 1,
+    "What Lies Ahead": 2,
+    "Trace Amount": 2,
+    "Cyber Exodus": 2,
+    "A Study in Static": 2,
+    "Humanity's Shadow": 2,
+    "Future Proof": 2,
+    "Creation and Control": 3,
+    "Opening Moves": 4,
+    "Second Thoughts": 4,
+    "Mala Tempora": 4,
+    "Game Night Kits": 0
+};
+
 function alsciendeIndex(card) {
-  var index = '' + card.setNumber;
-  index = index.length >= 3 ? index : (new Array(3 - index.length + 1).join('0') + index);
-  index += card.setName;
-  index = index.length >= 5 ? index : (new Array(5 - index.length + 1).join('0') + index);
-  return index;
+    var index = '' + card.setNumber;
+    index = index.length >= 3 ? index : (new Array(3 - index.length + 1).join('0') + index);
+    index = mapSetName[card.setName] + index;
+    index = index.length >= 5 ? index : (new Array(5 - index.length + 1).join('0') + index);
+    return index;
 }
 
-function imagePath(card) {
+function imageUrl(card) {
   return "http://netrunnercards.info/assets/images/cards/300x418/" + alsciendeIndex(card) + ".png";
 }
 
@@ -31,7 +45,7 @@ function baseObject(card) {
         class: [ "image" ],
         rel: [ "" ],
         links: [
-          { rel: [ "self" ], href: imagePath(card) }
+          { rel: [ "self" ], href: imageUrl(card) }
         ]
       }
     ],
@@ -46,7 +60,10 @@ function addActions(siren, game, permission) {
 }
 
 function toSiren(card, game, permission) {
-  return addActions(baseObject(card))
+  return addActions(baseObject(card), game, permission);
 }
 
+
+Card.alsciendeIndex = alsciendeIndex;
+Card.imageUrl = imageUrl;
 Card.toSiren = toSiren;

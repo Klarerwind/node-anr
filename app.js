@@ -21,11 +21,32 @@ app.set('view engine', 'hjs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.cookieParser('netrunner4ever'));
+app.use(extractAlerts);
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(require('less-middleware')({ src: __dirname + '/public' }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+function extractAlerts(req, res, next) {
+    var ascii, alerts;
+    if (req.cookies.alerts) {
+        ascii = new Buffer(req.cookies.alerts, 'base64').toString('ascii');
+        try {
+            alerts = JSON.parse(ascii);
+        } catch (e) {
+            console.log(ascii, e);
+        }
+        req.alerts = alerts;
+        res.clearCookie('alerts');
+    }
+    next();
+}
+
+global.alert = function(res, obj) {
+    var base64 = new Buffer(JSON.stringify(obj)).toString('base64');
+    res.cookie('alerts', base64, { maxAge: 900000, httpOnly: true });
+};
 
 // development only
 if ('development' == app.get('env')) {
@@ -53,15 +74,4 @@ http.createServer(app).listen(app.get('port'), function () {
 
         global.db = db;
     });
-
-//    var db = new MongoPool("mongodb://localhost:27017/test");
-//    db.query('a_test_delete_me', function(collection) {
-//        collection.insert({toppings: 3, size: "large"}, {w:1}, function(err, result) {
-//            console.log(result);
-//            collection.findOne(function(err, item) {
-//                if (err) { console.log(err); }
-//                console.log(item);
-//            });
-//        });
-//    });
 });

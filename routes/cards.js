@@ -1,9 +1,10 @@
 var ObjectID = require('mongodb').ObjectID,
     Routes = require('../routes'),
+    Card = require('../models/card');
     _ = require('underscore');
 
-function cardNotFound(res) {
-    res.status(404).send("Card not found");
+function cardNotFound(res, e) {
+    res.status(404).send("Card not found: " + e.message);
 }
 
 function toCamelCase(str) {
@@ -33,70 +34,36 @@ exports.findAll = function (req, res) {
             }
         });
         res.render('cards/index', {
+            alerts: req.alerts,
             title: "All cards",
-            cards: results
+            cards: results,
+            addPath: Routes.newCardPath()
         });
     });
 };
-
-var mapSetName = {
-    "Core": 1,
-    "What Lies Ahead": 2,
-    "Trace Amount": 2,
-    "Cyber Exodus": 2,
-    "A Study in Static": 2,
-    "Humanity's Shadow": 2,
-    "Future Proof": 2,
-    "Creation and Control": 3,
-    "Opening Moves": 4,
-    "Second Thoughts": 4,
-    "Mala Tempora": 4,
-    "Game Night Kits": 0
-};
-
-
-function alsciendeIndex(card) {
-    var index = '' + card.setNumber;
-    index = index.length >= 3 ? index : (new Array(3 - index.length + 1).join('0') + index);
-    index = mapSetName[card.setName] + index;
-    index = index.length >= 5 ? index : (new Array(5 - index.length + 1).join('0') + index);
-    return index;
-}
 
 exports.findById = function (req, res) {
     var id, collection = global.db.collection('cards');
 
     try {
         id = new ObjectID(req.params.id);
-    } catch (Exception) {
-        return cardNotFound(res);
+    } catch (e) {
+        return cardNotFound(res, e);
     }
 
     collection.findOne({_id: id}, function(err, card) {
-        if (err) throw err;
-        if (!card) return cardNotFound(res);
+        if (err) console.warn(err.message);
+        if (!card) return cardNotFound(res, "card is null");
 
         var sFaction = {},
-            sType = {},
-            ascii,
-            alerts;
+            sType = {};
 
-        card.imageUrl = "http://netrunnercards.info/assets/images/cards/300x418/" + alsciendeIndex(card) + ".png";
+        card.imageUrl = Card.imageUrl(card);
         sFaction[toCamelCase(card.faction)] = true;
         sType[toCamelCase(card.type)] = true;
 
-        if (req.cookies.alerts) {
-            ascii = new Buffer(req.cookies.alerts, 'base64').toString('ascii');
-            try {
-                alerts = JSON.parse(ascii);
-            } catch (e) {
-                console.log(ascii, e);
-            }
-            res.clearCookie('alerts');
-        }
-
         res.render('cards/show', {
-            alerts: alerts,
+            alerts: req.alerts,
             title: "Viewing " + card.title,
             header: "View Card (" + card._id + ")",
             card: card,
@@ -120,12 +87,9 @@ exports.addCard = function (req, res) {
     var card = parseCard(req.body.card),
         alerts = validateCard(card);
 
-    console.log(card);
-
     if (alerts.length) {
-        // TODO should redirect to show instead
         return res.render('cards/add', {
-            alerts: alerts,
+            alerts: req.alerts,
             title: "Add a new card",
             card: card
         });
@@ -133,7 +97,9 @@ exports.addCard = function (req, res) {
 
     var collection = global.db.collection('cards');
     collection.insert(card, function() {
-        var alerts = [{type: "success", message: 'Added "' + card.title + '" successfully.'}],
+        var alerts = {type: "success", message: '<strong>Success!</strong> <i>'
+            + card.title + '</i> was added. <a href="'
+            + Routes.newCardPath() + '" class="alert-link">Add another</a>'},
             base64 = new Buffer(JSON.stringify(alerts)).toString('base64');
         res.cookie('alerts', base64, { maxAge: 900000, httpOnly: true });
         res.redirect(Routes.cardPath(card));
@@ -145,22 +111,23 @@ exports.updateCardForm = function (req, res) {
 
     try {
         id = new ObjectID(req.params.id);
-    } catch (Exception) {
-        return cardNotFound(res);
+    } catch (e) {
+        return cardNotFound(res, e);
     }
 
     collection.findOne({_id: id}, function(err, card) {
-        if (err) throw err;
-        if (!card) return cardNotFound(res);
+        if (err) console.warn(err.message);
+        if (!card) return cardNotFound(res, "card is null");
 
         var sFaction = {},
-        sType = {};
+            sType = {};
 
-        card.imageUrl = "http://netrunnercards.info/assets/images/cards/300x418/" + alsciendeIndex(card) + ".png";
+        card.imageUrl = Card.imageUrl(card);
         sFaction[toCamelCase(card.faction)] = true;
         sType[toCamelCase(card.type)] = true;
 
         res.render('cards/form', {
+            alerts: req.alerts,
             title: "Edit Card",
             header: "Edit Card (" + card._id + ")",
             card: card,
@@ -175,24 +142,27 @@ exports.updateCardForm = function (req, res) {
 
 exports.updateCard = function (req, res) {
     var card = parseCard(req.body.card),
-    alerts = validateCard(card);
+        alerts = validateCard(card);
 
-    console.log(card);
+    try {
+        card._id = new ObjectID(card._id);
+    } catch (e) {
+        return cardNotFound(res, e);
+    }
 
     if (alerts.length) {
-        // TODO should redirect to show instead
-        return res.render('cards/add', {
-            alerts: alerts,
-            title: "Add a new card",
-            card: card
-        });
+        global.alert(res, alerts);
+        return res.redirect(Routes.editCardPath(card));
     }
 
     var collection = global.db.collection('cards');
-    collection.insert(card, function() {
-        var alerts = [{type: "success", message: 'Updated "' + card.title + '" successfully.'}],
-        base64 = new Buffer(JSON.stringify(alerts)).toString('base64');
-        res.cookie('alerts', base64, { maxAge: 900000, httpOnly: true });
+    collection.update({_id: card._id}, card, {w:1}, function(err) {
+        if (err) console.warn(err.message);
+
+        var alerts = {type: "success", message: '<strong>Success!</strong> <i>'
+            + card.title + '</i> was updated. <a href="'
+            + Routes.cardsPath() + '" class="alert-link">View all cards</a>'};
+        global.alert(res, alerts);
         res.redirect(Routes.cardPath(card));
     });
 };
@@ -256,6 +226,7 @@ function removeUndefinedFields(obj) {
 
 function parseCard (card) {
     var _card = {
+        "_id": card._id,        // this will be a string instead of an MongoDB ObjectID
         "title": card.title,
         "unique": card.unique,
         "faction": card.faction,

@@ -233,9 +233,12 @@ function parseCard (card) {
         "type": card.type,
         "subtype": card.subtype,
         "setName": card.setName,
-        "setNumber": card.setNumber,
-        "code": card.code
+        "setNumber": card.setNumber
     };
+
+    if (card.code !== "") {
+        _card.code = card.code;
+    }
 
     if (card.type !== "Identity" && card.type !== "Agenda") {
         _card.influenceValue = card.influenceValue;

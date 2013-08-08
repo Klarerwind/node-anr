@@ -33,7 +33,7 @@
         <tbody>
         {{#cards}}
         <tr>
-            <td><a href="{{editPath}}">{{title}}</a></td>
+            <td><a href="{{editPath}}"{{^code}} class="not-coded"{{/code}}>{{title}}</a></td>
             <td>{{type}}</td>
             <td><img src="/images/factions/{{faction}}.png"></td>
             <td>{{subtype}}</td>

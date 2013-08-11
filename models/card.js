@@ -1,43 +1,70 @@
 var Routes = require('../routes');
+var CDs = require('../cds');
+var Side = require('./card_definition.js').Side;
 
-var Card = module.exports = {};
+/* Properties:
+ *  cd_id: ObjectID
+ *  faceUp: boolean
+ *  group: Array
+ */
 
-var mapSetName = {
-    "Core": 1,
-    "What Lies Ahead": 2,
-    "Trace Amount": 2,
-    "Cyber Exodus": 2,
-    "A Study in Static": 2,
-    "Humanity's Shadow": 2,
-    "Future Proof": 2,
-    "Creation and Control": 3,
-    "Opening Moves": 4,
-    "Second Thoughts": 4,
-    "Mala Tempora": 4,
-    "Game Night Kits": 0
+// Do not use this directly, instead use the Card Factory
+// in the Game object
+function Card (obj) {
+  var cd = CDs[obj.cd_id];
+  if (!cd) throw new Error("Could not find card definition.");   // TODO handle better
+
+  obj = obj || {};
+  _.defaults(this, obj, {
+    faceUp: false,
+    group: null
+  });
+  this.__proto__ = cd;    // might want to use Object.create instead, depending on performance testing
+}
+
+Card.fromDefinition = function (cd_id, group) {
+  return new Card({
+    cd_id: cd_id,
+    group: group || null
+  });
 };
 
-function alsciendeIndex(card) {
-    var index = '' + card.setNumber;
-    index = index.length >= 3 ? index : (new Array(3 - index.length + 1).join('0') + index);
-    index = mapSetName[card.setName] + index;
-    index = index.length >= 5 ? index : (new Array(5 - index.length + 1).join('0') + index);
-    return index;
-}
+Card.prototype.isRunner = function () {
+  return this.side === Side.RUNNER;
+};
 
-function imageUrl(card) {
-  return "http://netrunnercards.info/assets/images/cards/300x418/" + alsciendeIndex(card) + ".png";
-}
+Card.prototype.moveTo = function (group) {
+  this.group.slice(this.getIndex(), 1);
+  group.push(this);
+  this.group = group;
+};
 
-function baseObject(card) {
+Card.prototype.moveToBottom = function (group) {
+  this.group.slice(this.getIndex(), 1);
+  group.unshift(this);
+  this.group = group;
+};
+
+// lastIndexOf() for cards in a group
+Card.prototype.getIndex = function() {
+  var i, group = this.group;
+  for (i = group.length-1; i >= 0; i--) {
+    if (group[i]._id === this._id)
+      return i;
+  }
+  return -1;
+};
+
+Card.prototype.baseObject = function() {
   return {
     class: [ "card" ],
     properties: {
-      id: card._id,
-      faceUp: card.faceUp,
+      id: this._id,
+      faceUp: this.faceUp,
+      group: this.group,
       location: {
-        id: card.loc.id,
-        rank: card.loc.rank
+        id: this.loc.id,
+        rank: this.loc.rank
       }
     },
     entities: [
@@ -45,7 +72,7 @@ function baseObject(card) {
         class: [ "image" ],
         rel: [ "" ],
         links: [
-          { rel: [ "self" ], href: imageUrl(card) }
+          { rel: [ "self" ], href: this.imageUrl() }
         ]
       }
     ],
@@ -53,17 +80,12 @@ function baseObject(card) {
       { rel: [ "self" ], href: Routes.gamePath(game._id) }
     ]
   };
-}
+};
 
 function addActions(siren, game, permission) {
 //  if ()
 }
 
-function toSiren(card, game, permission) {
-  return addActions(baseObject(card), game, permission);
-}
-
-
-Card.alsciendeIndex = alsciendeIndex;
-Card.imageUrl = imageUrl;
-Card.toSiren = toSiren;
+Card.prototype.toSiren = function(game, permission) {
+  return addActions(this.baseObject(), game, permission);
+};

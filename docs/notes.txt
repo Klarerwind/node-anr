@@ -1,11 +1,19 @@
+Style Guide: http://nodeguide.com/style.html
+
 Interesting:
+https://github.com/joyent/node/wiki/Async-Exception-Handling
+http://machadogj.com/2013/4/error-handling-in-nodejs.html
 https://github.com/caolan/async
+https://leanpub.com/restfulapis
+http://www.sebastianseilund.com/nodejs-async-in-practice
 http://stackoverflow.com/questions/8373905/when-to-close-mongodb-database-connection-in-nodejs
 http://stella.laurenzo.org/2011/03/bulletproof-node-js-coding/
 http://socket.io/
 http://learnmongodbthehardway.com/
 https://github.com/chriso/node-validator
 http://twitter.github.io/bootstrap/base-css.html
+http://51elliot.blogspot.com/2012/01/simple-intro-to-nodejs-module-scope.html
+https://github.com/stevekwan/best-practices/blob/master/javascript/best-practices.md
 
 Data flows:
 Most requests will access one of the following:

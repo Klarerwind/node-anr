@@ -1,0 +1,45 @@
+USER
+GET /users
+GET /users/new
+POST /users
+GET /users/<user_id>/edit
+PUT /users/<user_id>
+
+TABLE
+A table is an entry in a list of current games, both in-play and waiting for an opponent.
+GET /tables provides a "lobby" view.
+
+GET /tables
+    get list of all tables (both in play and waiting)
+GET /table/new
+    get a form for creating a table
+POST /tables
+    create a new table with specified format (timed, untimed) and settings (private, public)
+GET /table/<table_id>/edit
+    get a form for editing table format and settings
+PUT /tables/<table_id>
+    update format and settings for a specific table
+
+INVITE
+For inviting another player (or spectator) to join your table.
+GET /invites
+    get all invites that a user has received
+POST /invites
+    invite a player or spectator to join your table
+PUT /invites/<invite_id>
+  -- accept or decline invite
+
+GAME
+A game is a complete description of the state of a game.
+It includes information about the players, all card states and tokens,
+temporal information (e.g. phase, turn), and allowable actions for each player.
+GET /games
+    get list of all games a user is playing
+GET /games/<id>
+    get state for a specific game, including allowable game actions that user can take
+PUT /games/<id>?action=<drawCard|gainCredit|purgeVirusCounters|removeTag|
+    update game with results of taking a standard action
+GET /games/<id>/cards/<id>
+    get state for a specific card in a game, including allowable actions on the card
+PUT /games/<id>/cards/<id>?action=play|install|advance|score|nameOfAbilityX
+    update game and card state by taking an action on a card

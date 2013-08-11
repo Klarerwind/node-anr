@@ -1,0 +1,3 @@
+http://stackoverflow.com/questions/8423493/what-is-the-performance-of-objects-arrays-in-javascript-specifically-for-googl
+http://jsperf.com/object-vs-array-vs-native-linked-list/13
+https://www.youtube.com/watch?feature=player_detailpage&v=XAqIpGU8ZZk#t=994s

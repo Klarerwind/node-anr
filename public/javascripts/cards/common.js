@@ -46,6 +46,7 @@ function Util() {
         var extracted = {
             "title": card.title,
             "faction": card.faction,
+            "side": card.side,
             "unique": card.uniqueness === 1,
             "type": card.type,
             "subtype": card.subtype,
@@ -67,13 +68,23 @@ function Util() {
         };
 
         $.each(extracted, function(key, value) {
+            value = value === 'ICE' ? 'Ice' : value;
             var o = $("#" + key);
-            if (o.is('input[type=text]')) {
+            if (o.length) {
+              if (o.is('input[type=text]')) {
                 o.val(value);
-            } else if (o.is('input[type=checkbox]')) {
+              } else if (o.is('input[type=checkbox]')) {
+                // for card[unique]
                 o.prop('checked', value);
-            } else if (o.is('select')) {
+              } else if (o.is('select')) {
                 o.val(value);
+              }
+            } else {
+              // for card[side]
+              o = $('input[name="card[' + key + ']"]');
+              o.each(function() {
+                $(this).prop('checked', $(this).val() === value);
+              })
             }
         });
 

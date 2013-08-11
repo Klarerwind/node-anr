@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-lg-3">
+        <fieldset{{#show}} disabled{{/show}}>
+            <div class="form-group">
+                <label for="title">Title</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="checkbox" id="unique" name="card[unique]"></span>
+                    <input type="text" class="form-control" id="title" name="card[title]" value="{{ card.title }}"
+                           placeholder="Enter card name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="radio-inline">
+                    <input type="radio" name="card[side]" value="Runner"
+                    {{#_side}}{{#runner}} checked{{/runner}}{{/_side}}>Runner</label>
+                <label class="radio-inline">
+                    <input type="radio" name="card[side]" value="Corp"
+                    {{#_side}}{{#corp}} checked{{/corp}}{{/_side}}>Corporation</label>
+            </div>
+            <div class="form-group">
+                <label for="faction">Faction</label>
+                <select class="form-control" id="faction" name="card[faction]" required>
+                    <option value="">Please select</option>
+                    <option{{#_faction}}{{#neutral}} selected{{/neutral}}{{/_faction}}>Neutral</option>
+                    <option{{#_faction}}{{#haasBioroid}} selected{{/haasBioroid}}{{/_faction}}>Haas-Bioroid</option>
+                    <option{{#_faction}}{{#jinteki}} selected{{/jinteki}}{{/_faction}}>Jinteki</option>
+                    <option{{#_faction}}{{#nbn}} selected{{/nbn}}{{/_faction}}>NBN</option>
+                    <option{{#_faction}}{{#weylandConsortium}} selected{{/weylandConsortium}}{{/_faction}}>Weyland Consortium</option>
+                    <option{{#_faction}}{{#anarch}} selected{{/anarch}}{{/_faction}}>Anarch</option>
+                    <option{{#_faction}}{{#criminal}} selected{{/criminal}}{{/_faction}}>Criminal</option>
+                    <option{{#_faction}}{{#shaper}} selected{{/shaper}}{{/_faction}}>Shaper</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select class="form-control" id="type" name="card[type]" required>
+                    <option value="">Please select</option>
+                    <option{{#_type}}{{#agenda}} selected{{/agenda}}{{/_type}}>Agenda</option>
+                    <option{{#_type}}{{#asset}} selected{{/asset}}{{/_type}}>Asset</option>
+                    <option{{#_type}}{{#event}} selected{{/event}}{{/_type}}>Event</option>
+                    <option{{#_type}}{{#hardware}} selected{{/hardware}}{{/_type}}>Hardware</option>
+                    <option value="Ice"{{#_type}}{{#ice}} selected{{/ice}}{{/_type}}>ICE</option>
+                    <option{{#_type}}{{#identity}} selected{{/identity}}{{/_type}}>Identity</option>
+                    <option{{#_type}}{{#operation}} selected{{/operation}}{{/_type}}>Operation</option>
+                    <option{{#_type}}{{#program}} selected{{/program}}{{/_type}}>Program</option>
+                    <option{{#_type}}{{#resource}} selected{{/resource}}{{/_type}}>Resource</option>
+                    <option{{#_type}}{{#upgrade}} selected{{/upgrade}}{{/_type}}>Upgrade</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subtype">Subtype</label>
+                <input type="text" class="form-control" id="subtype" name="card[subtype]" value="{{ card.subtype }}" >
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label for="setName">Set name</label>
+                        <input type="text" class="form-control" id="setName" name="card[setName]" value="{{ card.setName }}" >
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="setNumber">Set #</label>
+                        <input type="text" class="form-control" id="setNumber" name="card[setNumber]" value="{{ card.setNumber }}" >
+                    </div>
+                </div>
+            </div>
+            <fieldset id="optionalFields" class="hide">
+                <div class="form-group">
+                    <label for="baseLink">Base link</label>
+                    <input type="text" class="form-control" id="baseLink" name="card[baseLink]" value="{{ card.baseLink }}" >
+                </div>
+                <div class="form-group">
+                    <label for="minimumDeckSize">Minimum deck size</label>
+                    <input type="text" class="form-control" id="minimumDeckSize" name="card[minimumDeckSize]" value="{{ card.minimumDeckSize }}" >
+                </div>
+                <div class="form-group">
+                    <label for="influenceLimit">Influence limit</label>
+                    <input type="text" class="form-control" id="influenceLimit" name="card[influenceLimit]" value="{{ card.influenceLimit }}" >
+                </div>
+                <div class="form-group">
+                    <label for="influenceValue">Influence value</label>
+                    <input type="text" class="form-control" id="influenceValue" name="card[influenceValue]" value="{{ card.influenceValue }}" >
+                </div>
+                <div class="form-group">
+                    <label for="playCost">Play cost</label>
+                    <input type="text" class="form-control" id="playCost" name="card[playCost]" value="{{ card.playCost }}" >
+                </div>
+                <div class="form-group">
+                    <label for="advancementReq">Advancement requirement</label>
+                    <input type="text" class="form-control" id="advancementReq" name="card[advancementReq]" value="{{ card.advancementReq }}" >
+                </div>
+                <div class="form-group">
+                    <label for="agendaPoints">Agenda points</label>
+                    <input type="text" class="form-control" id="agendaPoints" name="card[agendaPoints]" value="{{ card.agendaPoints }}" >
+                </div>
+                <div class="form-group">
+                    <label for="rezCost">Rez cost</label>
+                    <input type="text" class="form-control" id="rezCost" name="card[rezCost]" value="{{ card.rezCost }}" >
+                </div>
+                <div class="form-group">
+                    <label for="installCost">Install cost</label>
+                    <input type="text" class="form-control" id="installCost" name="card[installCost]" value="{{ card.installCost }}" >
+                </div>
+                <div class="form-group">
+                    <label for="memoryCost">Memory cost</label>
+                    <input type="text" class="form-control" id="memoryCost" name="card[memoryCost]" value="{{ card.memoryCost }}" >
+                </div>
+                <div class="form-group">
+                    <label for="strength">Strength</label>
+                    <input type="text" class="form-control" id="strength" name="card[strength]" value="{{ card.strength }}" >
+                </div>
+                <div class="form-group">
+                    <label for="trashCost">Trash cost</label>
+                    <input type="text" class="form-control" id="trashCost" name="card[trashCost]" value="{{ card.trashCost }}" >
+                </div>
+            </fieldset>
+        </fieldset>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="code">Code</label>
+            <textarea id="code" name="card[code]">{{ card.code }}</textarea>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label>Card Image</label>
+            <div><img id="previewImage" src="{{ card.imageUrl }}" class="img-responsive"></div>
+        </div>
+    </div>
+</div>
